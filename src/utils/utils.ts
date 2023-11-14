@@ -15,3 +15,24 @@ export function createContainer<T extends ContainersPropsMapKeys>(
 ): Container<T> {
   return { type, props };
 }
+
+export const getFormNames = (formStructure: FormStructure): string[] =>
+  convertToArray(formStructure).reduce((acc, element) => {
+    if (element.inputs) {
+      convertToArray(element.inputs).forEach((input) => {
+        acc.push(input.props.name);
+      });
+    }
+
+    if (element.containers) {
+      const names = convertToArray(element.containers).reduce(
+        (acc, container) => {
+          acc.push(...getFormNames(container.props.children));
+          return acc;
+        },
+        [] as string[]
+      );
+      acc.push(...names);
+    }
+    return acc;
+  }, [] as string[]);

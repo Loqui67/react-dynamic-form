@@ -1,5 +1,5 @@
 import DrawerContainer from "./DrawerContainer";
 import ModalContainer from "./ModalContainer";
-import TabsContainer from "./TabsContainer";
+import TabContainer from "./TabContainer";
 
-export { DrawerContainer, ModalContainer, TabsContainer };
+export { DrawerContainer, ModalContainer, TabContainer };

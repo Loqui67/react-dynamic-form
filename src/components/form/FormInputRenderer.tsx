@@ -1,5 +1,5 @@
 import React from "react";
-import * as Inputs from "./Inputs";
+import * as Inputs from "../Inputs";
 
 function FormInputRenderer<T extends InputsPropsMapKeys>({
   type,

@@ -4,7 +4,6 @@ type HTMLAttributes<T> = React.HTMLAttributes<T> & {
 };
 
 interface TextInputProps extends HTMLAttributes<HTMLInputElement> {}
-
 interface NumberInputProps extends HTMLAttributes<HTMLInputElement> {
   value: number;
 }

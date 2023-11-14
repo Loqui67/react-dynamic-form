@@ -1,8 +1,8 @@
 import React from "react";
-import FormProvider from "../contexts/FormContext";
+import FormProvider from "../../contexts/FormContext";
 import RecursiveFormBuilder from "./RecursiveFormBuilder";
-import { createInput } from "../utils";
-import { TEXT_INPUT } from "../constants/Input";
+import { createInput } from "../../utils";
+import { TEXT_INPUT } from "../../constants";
 
 const formStructure: FormStructure = [
   {
@@ -52,6 +52,7 @@ const formStructure: FormStructure = [
 ];
 
 function DynamicForm() {
+  console.log("formStructure", formStructure);
   return (
     <FormProvider formStructure={formStructure}>
       <form action="">

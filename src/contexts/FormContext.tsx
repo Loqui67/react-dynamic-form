@@ -1,4 +1,5 @@
 import React, { createContext } from "react";
+import { getFormNames } from "../utils";
 
 interface ContextObject {
   fields: Fields;
@@ -21,7 +22,19 @@ export default function FormProvider({
   formStructure,
   children,
 }: FormProviderProps) {
-  const [fields, setFields] = React.useState<Fields>({});
+  const formNames = getFormNames(formStructure);
+
+  const initialFields = formNames.reduce((acc, name) => {
+    acc[name] = {
+      value: "",
+      errors: "",
+      displayed: true,
+      touched: false,
+    };
+    return acc;
+  }, {} as Fields);
+
+  const [fields, setFields] = React.useState<Fields>(initialFields);
   return (
     <FormContext.Provider
       value={{

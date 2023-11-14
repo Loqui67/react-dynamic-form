@@ -1,5 +1,5 @@
 import React from "react";
-import * as Containers from "./Containers";
+import * as Containers from "../Containers";
 
 function FormContainerRenderer<T extends ContainersPropsMapKeys>({
   type,
