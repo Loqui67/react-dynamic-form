@@ -36,4 +36,5 @@ type InputsPropsMapKeys = keyof InputsPropsMap;
 type Input<T extends InputsPropsMapKeys = InputsPropsMapKeys> = {
   type: T;
   props: InputsPropsMap[T];
+  customInput?: React.FC<InputsPropsMap[T]>;
 };

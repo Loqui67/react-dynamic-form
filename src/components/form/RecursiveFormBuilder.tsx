@@ -1,6 +1,7 @@
 import React from "react";
 import FormInputRenderer from "./FormInputRenderer";
 import { convertToArray } from "../../utils";
+import FormContainerRenderer from "./FormContainerRenderer";
 
 interface RecursiveFormBuilderProps {
   formStructure: FormStructure;
@@ -15,16 +16,29 @@ function RecursiveFormBuilder({
   return (
     <div className={`container-level-${level}`}>
       {convertToArray(formStructure).map((element, index) => {
-        const { key, inputs, containers: container } = element;
+        const { key, inputs, containers, others } = element;
         return (
           <div
             key={key}
             className={`element-level-${level} element-index-${index}`}
           >
+            {others && <div className={`others-level-${level}`}>{others}</div>}
             {inputs && (
               <div className={`inputs-level-${level}`}>
                 {convertToArray(inputs).map((input) => (
                   <FormInputRenderer {...input} />
+                ))}
+              </div>
+            )}
+            {containers && (
+              <div className={`containers-level-${level}`}>
+                {convertToArray(containers).map((container) => (
+                  <FormContainerRenderer {...container}>
+                    <RecursiveFormBuilder
+                      formStructure={container.props.formStructure}
+                      level={level + 1}
+                    />
+                  </FormContainerRenderer>
                 ))}
               </div>
             )}

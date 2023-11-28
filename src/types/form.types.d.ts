@@ -1,6 +1,7 @@
 type FormDataStructure = {
   inputs?: ArrayOrElement<Input>;
-  containers?: ArrayOrElement<Container>;
+  containers?: ArrayOrElement<Omit<Container, "children">>;
+  others?: React.ReactNode;
   key?: string;
 };
 

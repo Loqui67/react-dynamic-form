@@ -4,11 +4,17 @@ import * as Containers from "../Containers";
 function FormContainerRenderer<T extends ContainersPropsMapKeys>({
   type,
   props,
-}: Container<T>) {
+  children,
+}: Container<T> & Children) {
   const ContainerComponent = Containers[type] as React.FC<
     ContainersPropsMap[typeof type]
   >;
-  return <ContainerComponent {...props} />;
+  const { formStructure, ...rest } = props;
+  return (
+    <div>
+      <ContainerComponent {...rest}>{children}</ContainerComponent>
+    </div>
+  );
 }
 
 export default FormContainerRenderer;

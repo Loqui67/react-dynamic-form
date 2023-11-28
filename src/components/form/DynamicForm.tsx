@@ -1,19 +1,25 @@
 import React from "react";
 import FormProvider from "../../contexts/FormContext";
 import RecursiveFormBuilder from "./RecursiveFormBuilder";
-import { createInput } from "../../utils";
-import { TEXT_INPUT } from "../../constants";
+import { createContainer, createInput } from "../../utils";
+import { DIV_CONTAINER, TEXT_INPUT } from "../../constants";
 
 const formStructure: FormStructure = [
   {
-    inputs: [
-      createInput(TEXT_INPUT, {
-        label: "First Name",
-        name: "firstName",
-      }),
-      createInput(TEXT_INPUT, {
-        label: "Last Name",
-        name: "lastName",
+    containers: [
+      createContainer(DIV_CONTAINER, {
+        formStructure: {
+          inputs: [
+            createInput(TEXT_INPUT, {
+              label: "First Name",
+              name: "firstName",
+            }),
+            createInput(TEXT_INPUT, {
+              label: "Last Name",
+              name: "lastName",
+            }),
+          ],
+        },
       }),
     ],
   },

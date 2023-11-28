@@ -4,14 +4,15 @@ export function convertToArray<T>(value: T | T[]): T[] {
 
 export function createInput<T extends InputsPropsMapKeys>(
   type: T,
-  props: InputsPropsMap[T]
+  props: InputsPropsMap[T],
+  customInput?: React.FC<typeof props>
 ): Input<T> {
-  return { type, props };
+  return { type, props, customInput };
 }
 
 export function createContainer<T extends ContainersPropsMapKeys>(
   type: T,
-  props: ContainersPropsMap[T]
+  props: ContainerProps<T>
 ): Container<T> {
   return { type, props };
 }
@@ -27,7 +28,7 @@ export const getFormNames = (formStructure: FormStructure): string[] =>
     if (element.containers) {
       const names = convertToArray(element.containers).reduce(
         (acc, container) => {
-          acc.push(...getFormNames(container.props.children));
+          acc.push(...getFormNames(container.props.formStructure));
           return acc;
         },
         [] as string[]
