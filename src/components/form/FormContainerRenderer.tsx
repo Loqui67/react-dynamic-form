@@ -5,7 +5,7 @@ function FormContainerRenderer<T extends ContainersPropsMapKeys>({
   type,
   props,
   children,
-}: Container<T> & Children) {
+}: WithChildren<Container<T>>) {
   const ContainerComponent = Containers[type] as React.FC<
     ContainersPropsMap[typeof type]
   >;

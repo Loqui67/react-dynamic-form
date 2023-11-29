@@ -11,9 +11,23 @@ type Getters<Type> = {
     string & Property
   >}`]: () => Type[Property];
 };
+type Setters<Type> = {
+  [Property in keyof Type as `set${Capitalize<string & Property>}`]: (
+    value: Type[Property]
+  ) => void;
+};
 
 type setState<T> = React.Dispatch<React.SetStateAction<T>>;
 
-type Children = {
-  children?: React.ReactNode;
-};
+type WithChildren<T = {}> = T & { children?: React.ReactNode };
+type WithoutChildren<T = {}> = Omit<T, "children">;
+
+type OmitMultiple<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+type OmitExcept<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> &
+  Partial<Omit<T, K>>;
+
+type HTMLAnyInput =
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement
+  | HTMLButtonElement;

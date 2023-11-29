@@ -2,14 +2,6 @@ export function convertToArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
-export function createInput<T extends InputsPropsMapKeys>(
-  type: T,
-  props: InputsPropsMap[T],
-  customInput?: React.FC<typeof props>
-): Input<T> {
-  return { type, props, customInput };
-}
-
 export function createContainer<T extends ContainersPropsMapKeys>(
   type: T,
   props: ContainerProps<T>
@@ -17,23 +9,25 @@ export function createContainer<T extends ContainersPropsMapKeys>(
   return { type, props };
 }
 
-export const getFormNames = (formStructure: FormStructure): string[] =>
+export const getFormInputs = (
+  formStructure: FormStructure
+): Record<string, Inputs> =>
   convertToArray(formStructure).reduce((acc, element) => {
     if (element.inputs) {
       convertToArray(element.inputs).forEach((input) => {
-        acc.push(input.props.name);
+        acc = { ...acc, [input.props.name]: input };
       });
     }
 
     if (element.containers) {
       const names = convertToArray(element.containers).reduce(
         (acc, container) => {
-          acc.push(...getFormNames(container.props.formStructure));
+          acc = { ...acc, ...getFormInputs(container.props.formStructure) };
           return acc;
         },
-        [] as string[]
+        {} as Record<string, Inputs>
       );
-      acc.push(...names);
+      acc = { ...acc, ...names };
     }
     return acc;
-  }, [] as string[]);
+  }, {} as Record<string, Inputs>);

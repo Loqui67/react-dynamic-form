@@ -61,18 +61,6 @@ type InputsByType =
 
 type Inputs = InputsByType & {
   dependencies?: string[];
-  validation?: Validation;
 };
 type InputsType = Inputs["type"];
 type InputsProps = Inputs["props"];
-type InputsValue = Inputs["value"];
-
-type MappedValue = {
-  TextInput: string;
-  NumberInput: number;
-  TextAreaInput: string;
-  SelectInput: string;
-  CheckboxInput: boolean;
-  RadioInput: boolean;
-  FileInput: FileList;
-};

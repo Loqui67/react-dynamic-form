@@ -19,21 +19,27 @@ function RecursiveFormBuilder({
         const { key, inputs, containers, others } = element;
         return (
           <div
-            key={key}
+            key={key || `element-${index}`}
             className={`element-level-${level} element-index-${index}`}
           >
             {others && <div className={`others-level-${level}`}>{others}</div>}
             {inputs && (
               <div className={`inputs-level-${level}`}>
-                {convertToArray(inputs).map((input) => (
-                  <FormInputRenderer {...input} />
+                {convertToArray(inputs).map((input, index) => (
+                  <FormInputRenderer
+                    {...input}
+                    key={`input-${input.type}-${index}`}
+                  />
                 ))}
               </div>
             )}
             {containers && (
               <div className={`containers-level-${level}`}>
-                {convertToArray(containers).map((container) => (
-                  <FormContainerRenderer {...container}>
+                {convertToArray(containers).map((container, index) => (
+                  <FormContainerRenderer
+                    {...container}
+                    key={`container-${container.type}-${index}`}
+                  >
                     <RecursiveFormBuilder
                       formStructure={container.props.formStructure}
                       level={level + 1}
