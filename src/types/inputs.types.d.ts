@@ -1,78 +1,81 @@
-type HTMLAttributes<T> = React.HTMLAttributes<T> & {
-  name: string;
-  label?: string;
-};
+type WithNameAndLabel<T> = T & { name: string; label?: string };
 
-interface TextInputProps extends HTMLAttributes<HTMLInputElement> {}
-interface NumberInputProps extends HTMLAttributes<HTMLInputElement> {
-  value: number;
+interface TextInputProps
+  extends WithNameAndLabel<React.InputHTMLAttributes<HTMLInputElement>> {}
+type TextInputName = "TextInput";
+interface NumberInputProps
+  extends WithNameAndLabel<React.InputHTMLAttributes<HTMLInputElement>> {
+  value?: number;
 }
+type NumberInputName = "NumberInput";
 
-interface TextAreaInputProps extends HTMLAttributes<HTMLTextAreaElement> {}
-
-interface SelectInputProps extends HTMLAttributes<HTMLSelectElement> {
+interface TextAreaInputProps
+  extends WithNameAndLabel<React.TextareaHTMLAttributes<HTMLTextAreaElement>> {}
+type TextAreaInputName = "TextAreaInput";
+interface SelectInputProps
+  extends WithNameAndLabel<React.SelectHTMLAttributes<HTMLSelectElement>> {
   options: Option[];
 }
+type SelectInputName = "SelectInput";
 
-interface Option extends HTMLAttributes<HTMLOptionElement> {}
+interface Option extends React.OptionHTMLAttributes<HTMLOptionElement> {}
 
-interface CheckboxInputProps extends HTMLAttributes<HTMLInputElement> {}
+interface CheckboxInputProps
+  extends WithNameAndLabel<React.InputHTMLAttributes<HTMLInputElement>> {
+  options: Option[];
+  value?: string[];
+}
+type CheckboxInputName = "CheckboxInput";
+interface RadioInputProps
+  extends WithNameAndLabel<React.InputHTMLAttributes<HTMLInputElement>> {
+  options: Option[];
+  value?: string;
+}
+type RadioInputName = "RadioInput";
+interface FileInputProps
+  extends WithNameAndLabel<React.InputHTMLAttributes<HTMLInputElement>> {
+  value?: FileList;
+}
+type FileInputName = "FileInput";
 
-interface RadioInputProps extends HTMLAttributes<HTMLInputElement> {}
+type AllInputsName =
+  | TextInputName
+  | NumberInputName
+  | TextAreaInputName
+  | SelectInputName
+  | CheckboxInputName
+  | RadioInputName
+  | FileInputName;
 
-interface FileInputProps extends HTMLAttributes<HTMLInputElement> {}
+type InputsPropsMap = {
+  TextInput: TextInputProps;
+  NumberInput: NumberInputProps;
+  TextAreaInput: TextAreaInputProps;
+  SelectInput: SelectInputProps;
+  CheckboxInput: CheckboxInputProps;
+  RadioInput: RadioInputProps;
+  FileInput: FileInputProps;
+};
 
-type InputsByType =
-  | {
-      type: "TextInput";
-      props: TextInputProps;
-      value?: string;
-    }
-  | {
-      type: "NumberInput";
-      props: NumberInputProps;
-      value?: number;
-    }
-  | {
-      type: "TextAreaInput";
-      props: TextAreaInputProps;
-      value?: string;
-    }
-  | {
-      type: "SelectInput";
-      props: SelectInputProps;
-      value?: string;
-    }
-  | {
-      type: "CheckboxInput";
-      props: CheckboxInputProps;
-      value?: boolean;
-    }
-  | {
-      type: "RadioInput";
-      props: RadioInputProps;
-      value?: boolean;
-    }
-  | {
-      type: "FileInput";
-      props: FileInputProps;
-      value?: FileList;
-    };
+type InputsPropsMapKeys = AllInputsName;
 
-type Inputs = InputsByType & {
+type MappedValue = {
+  [key in AllInputsName]: Input<key>["props"]["value"];
+};
+
+type Input<K extends InputsPropsMapKeys> = {
+  type: K;
+  props: InputsPropsMap[K];
+  value?: MappedValue[K];
   dependencies?: string[];
   validation?: Validation;
 };
-type InputsType = Inputs["type"];
-type InputsProps = Inputs["props"];
-type InputsValue = Inputs["value"];
 
-type MappedValue = {
-  TextInput: string;
-  NumberInput: number;
-  TextAreaInput: string;
-  SelectInput: string;
-  CheckboxInput: boolean;
-  RadioInput: boolean;
-  FileInput: FileList;
-};
+type Inputs =
+  | Input<TextInputName>
+  | Input<NumberInputName>
+  | Input<TextAreaInputName>
+  | Input<SelectInputName>
+  | Input<CheckboxInputName>
+  | Input<RadioInputName>
+  | Input<FileInputName>;

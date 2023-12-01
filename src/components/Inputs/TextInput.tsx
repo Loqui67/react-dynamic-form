@@ -8,7 +8,8 @@ function TextInput({ ...props }: TextInputProps) {
     <input
       {...props}
       type="text"
-      value={value}
+      autoComplete={props["aria-autocomplete"] || "off"}
+      value={value || ""}
       onChange={(e) => {
         setValue(e.target.value);
       }}

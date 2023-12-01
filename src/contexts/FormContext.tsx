@@ -29,14 +29,13 @@ export default function FormProvider({
   const formInputs = getFormInputs(formStructure);
 
   const initialFields = Object.keys(formInputs).reduce((acc, name) => {
-    const input = formInputs[name] as Inputs;
-    if (input.type === "NumberInput")
-      acc[name] = {
-        input,
-        errors: "",
-        touched: false,
-        displayed: true,
-      } as Field;
+    const input = formInputs[name];
+    acc[name] = {
+      input,
+      errors: "",
+      touched: false,
+      displayed: true,
+    } as Field;
     return acc;
   }, {} as Fields);
 

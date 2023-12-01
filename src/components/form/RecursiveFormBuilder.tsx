@@ -41,7 +41,7 @@ function RecursiveFormBuilder({
                     key={`container-${container.type}-${index}`}
                   >
                     <RecursiveFormBuilder
-                      formStructure={container.props.formStructure}
+                      formStructure={container.formStructure}
                       level={level + 1}
                     />
                   </FormContainerRenderer>

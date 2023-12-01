@@ -5,32 +5,31 @@ import "./index.css";
 import DynamicForm from "./components/form/DynamicForm";
 
 import { DIV_CONTAINER, TEXT_INPUT } from "./constants";
-import { createContainer } from "./utils";
 
 const formStructure: FormStructure = [
   {
-    containers: [
-      createContainer(DIV_CONTAINER, {
-        formStructure: {
-          inputs: [
-            {
-              type: TEXT_INPUT,
-              props: {
-                label: "First Name",
-                name: "firstName",
-              },
+    containers: {
+      type: DIV_CONTAINER,
+      props: {},
+      formStructure: {
+        inputs: [
+          {
+            type: TEXT_INPUT,
+            props: {
+              label: "First Name",
+              name: "firstName",
             },
-            {
-              type: TEXT_INPUT,
-              props: {
-                label: "Last Name",
-                name: "lastName",
-              },
+          },
+          {
+            type: TEXT_INPUT,
+            props: {
+              label: "Last Name",
+              name: "lastName",
             },
-          ],
-        },
-      }),
-    ],
+          },
+        ],
+      },
+    },
   },
   {
     inputs: [

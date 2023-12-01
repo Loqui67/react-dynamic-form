@@ -5,7 +5,10 @@ import { convertToArray } from "../utils";
 
 type setField = (partialField: Partial<Field>) => void;
 
-export default function useField<T extends InputsType>(name: string, type: T) {
+export default function useField<T extends AllInputsName>(
+  name: string,
+  type: T
+) {
   const { fields, setFields } = useForm();
   const field = fields[name];
   if (!field) {
@@ -22,14 +25,9 @@ export default function useField<T extends InputsType>(name: string, type: T) {
     }));
   };
 
-  const {
-    input: { value },
-    ...rest
-  } = field;
-
+  const input = field.input as Input<typeof type>;
   return {
-    ...rest,
-    value: value as MappedValue[T],
+    ...input,
     setValue: setValue(field, setField),
     setTouched: setTouched(setField),
     setErrors: setErrors(setField),
@@ -41,7 +39,13 @@ const setValue = (field: Field, setField: setField) => (value: any) => {
   if (field.touched && field.validation) {
     validate(value, field.validation).then((errors) => {
       setErrors(setField)(convertToArray(errors));
-      if (errors.length === 0) setField({ input: { ...field.input, value } });
+      if (errors.length === 0)
+        setField({
+          input: {
+            ...field.input,
+            value,
+          },
+        });
     });
   } else {
     setField({ input: { ...field.input, value } });
